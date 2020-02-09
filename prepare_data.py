@@ -3,6 +3,7 @@ from datetime import datetime
 
 import pandas as pd
 
+
 def get_dataframe_info(dataframe):
     print("----- DATAFRAME INFORMATION -----")
 
@@ -11,6 +12,7 @@ def get_dataframe_info(dataframe):
 
     print("Shape: ")
     print(dataframe.shape)
+
 
 def get_null_dataframe(dataframe):
     null_bolean_df = dataframe.isnull()
@@ -106,15 +108,20 @@ def get_duplicates_dataframe(data_dataframe, primary_key):
     print(duplicates_dataframe)
     return duplicates_dataframe
 
+
 def remove_duplicates_dataframe(data_dataframe):
     print("----- DATAFRAME AFTER DROPING DUPLICATED ENTRIES -----")
 
     no_duplicates_dataframe = data_dataframe.drop_duplicates()
     number_columns = no_duplicates_dataframe.shape[0]
+    print(f"After dropping duplicates except for the first occurrence, the dataframe remains {number_columns} rows.")
 
-    print("After dropping duplicates except for the first occurrence, the dataframe remains {} rows".format(number_columns))
-    
     return no_duplicates_dataframe
+
+
+def check_typos(data_dataframe):
+    return None
+
 
 def main():
     parser = argparse.ArgumentParser()
