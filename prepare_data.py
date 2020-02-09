@@ -3,6 +3,14 @@ from datetime import datetime
 
 import pandas as pd
 
+def get_dataframe_info(dataframe):
+    print("----- DATAFRAME INFORMATION -----")
+
+    print("Columns: ")
+    print(dataframe.columns)
+
+    print("Shape: ")
+    print(dataframe.shape)
 
 def get_null_dataframe(dataframe):
     null_bolean_df = dataframe.isnull()
@@ -89,13 +97,24 @@ def get_wrong_type_dataframe(data_dataframe, rules_dataframe):
 
 
 def get_duplicates_dataframe(data_dataframe, primary_key):
+    print("----- DATAFRAME WITH DUPLICATED ENTRIES -----")
     # False if we want original and copy
     duplicates_dataframe = data_dataframe[
-        data_dataframe.duplicated(primary_key, False)
+        data_dataframe.duplicated()
+        # data_dataframe.duplicated(primary_key, "first")
     ]
     print(duplicates_dataframe)
     return duplicates_dataframe
 
+def remove_duplicates_dataframe(data_dataframe):
+    print("----- DATAFRAME AFTER DROPING DUPLICATED ENTRIES -----")
+
+    no_duplicates_dataframe = data_dataframe.drop_duplicates()
+    number_columns = no_duplicates_dataframe.shape[0]
+
+    print("After dropping duplicates except for the first occurrence, the dataframe remains {} rows".format(number_columns))
+    
+    return no_duplicates_dataframe
 
 def main():
     parser = argparse.ArgumentParser()
@@ -120,10 +139,12 @@ def main():
     rules_dataframe = pd.read_csv(rules_file, sep=args.sep)
     rules_dataframe = rules_dataframe.set_index('FIELD')
 
+    get_dataframe_info(data_dataframe)
     get_null_dataframe(data_dataframe)
     get_empty_value_dataframe(data_dataframe)
-    get_wrong_type_dataframe(data_dataframe, rules_dataframe)
+    # get_wrong_type_dataframe(data_dataframe, rules_dataframe)
     get_duplicates_dataframe(data_dataframe, args.primary_key)
+    remove_duplicates_dataframe(data_dataframe)
 
 
 # Define what to do if file is run as script
