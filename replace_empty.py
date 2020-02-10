@@ -82,6 +82,7 @@ def main():
         nargs='+',
         help='Column(s) to replace [-c Column1 Column2]'
     )
+    parser.add_argument("--output", help='CSV file output')
     parser.add_argument("--sep", help='Separator', default='|')
     parser.add_argument(
         "-v",
@@ -119,6 +120,13 @@ def main():
                                 args.values)
 
     print(new_dataframe)
+
+    if args.output:
+        filename = args.output
+    else:
+        filename = f"{data_file.split('.')[0]}_replaced_empty.csv"
+
+    new_dataframe.to_csv(filename, index=False)
 
 
 # Define what to do if file is run as script
