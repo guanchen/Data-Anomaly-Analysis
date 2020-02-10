@@ -14,28 +14,20 @@ def replace_null_by_values(dataframe, values):
 
 
 def replace_null_by_columns_values(dataframe, columns, values):
+    null_dict = {}
+
     if len(columns) == len(values):
         lenght = len(columns)
         for i in range(lenght):
             column = columns[i]
             value = values[i]
-            try:
-                dataframe.loc[
-                    dataframe[column].str.strip().str.len() == 0,
-                    column
-                ] = value
-            except AttributeError:
-                pass
+            null_dict.update({column: value})
     else:
         value = values[0]
         for column in columns:
-            try:
-                dataframe.loc[
-                    dataframe[column].str.strip().str.len() == 0,
-                    column
-                ] = value
-            except AttributeError:
-                pass
+            null_dict.update({column: value})
+
+    dataframe = dataframe.fillna(null_dict)
 
     return dataframe
 
