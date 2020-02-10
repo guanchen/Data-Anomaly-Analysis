@@ -1,2 +1,8 @@
-CaseData_2020_ID029/
 .*
+
+CaseData_2020_ID029/
+csv/
+data/
+env/
+
+draft.py
