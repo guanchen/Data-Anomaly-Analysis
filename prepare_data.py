@@ -63,7 +63,7 @@ def get_no_empty_value_dataframe(dataframe):
     string_dataframe = dataframe.applymap(str)
     no_space_df = string_dataframe.applymap(str.strip)
     no_empty_boolean_df = no_space_df.ne("")
-    no_empty_entries = no_empty_boolean_df.any(axis='columns')
+    no_empty_entries = no_empty_boolean_df.all(axis='columns')
     no_empty_values_df = dataframe[no_empty_entries]
     number_columns = no_empty_values_df.shape[0]
     number_empty = int(dataframe.shape[0]) - int(number_columns)
@@ -79,7 +79,7 @@ def get_duplicates_dataframe(data_dataframe):
     duplicates_dataframe = data_dataframe[
         data_dataframe.duplicated()
     ]
-    print(f"Number of dupliciated entries: {duplicates_dataframe.shape[0]}")
+    print(f"Number of duplicated entries: {duplicates_dataframe.shape[0]}")
     print("\n")
 
     return duplicates_dataframe
@@ -99,14 +99,17 @@ def get_no_duplicates_dataframe(dataframe):
 
 def main():
     parser = argparse.ArgumentParser()
+
     # Mandatory arguments
     parser.add_argument("data", help='Data file')
-    parser.add_argument("rules", help='Database rules file')
+    # parser.add_argument("rules", help='Database rules file')
+
     # Optional arguments
     parser.add_argument("--all", help='Remove every anomalies', action='store_true')
     parser.add_argument("--duplicates", help='Remove duplicates', action='store_true')
     parser.add_argument("--empty", help='Remove empty entries', action='store_true')
     parser.add_argument("--NaN", help='Remove NaN entries', action='store_true')
+    parser.add_argument("--output", help='CSV file output')
     parser.add_argument("--sep", help='Separator', default='|')
     # parser.add_argument(
     #   "--primary_key",
@@ -116,11 +119,11 @@ def main():
     args = parser.parse_args()
 
     data_file = args.data
-    rules_file = args.rules
-
     data_dataframe = pd.read_csv(data_file, sep=args.sep)
-    rules_dataframe = pd.read_csv(rules_file, sep=args.sep)
-    rules_dataframe = rules_dataframe.set_index('FIELD')
+
+    # rules_file = args.rules
+    # rules_dataframe = pd.read_csv(rules_file, sep=args.sep)
+    # rules_dataframe = rules_dataframe.set_index('FIELD')
 
     get_dataframe_info(data_dataframe)
 
@@ -143,8 +146,13 @@ def main():
     else:
         get_empty_value_dataframe(data_dataframe)
 
-    filename = data_file.split(".")[0]
-    data_dataframe.to_csv(f"{filename}_prepared.csv", index=False, sep="|")
+    if args.output:
+        filename = args.output
+    else:
+        filename = f"{data_file.split('.')[0]}_prepared.csv"
+
+    # Convert prepared dataframe to CSV file
+    data_dataframe.to_csv(filename, index=False)
 
 
 # Define what to do if file is run as script
