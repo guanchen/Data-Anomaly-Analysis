@@ -4,9 +4,10 @@ import pandas as pd
 
 
 def get_dataframe_info(dataframe):
-    print("----- DATAFRAME INFORMATION -----")
+    print("\n----- DATAFRAME INFORMATION -----")
 
     print(f"Columns: {dataframe.columns.values.tolist()}")
+    print("")
     print(f"Shape: {dataframe.shape}")
     print("\n")
 
@@ -48,7 +49,7 @@ def get_empty_value_dataframe(dataframe):
     empty_values_df = dataframe[empty_entries]
     empty_counts = empty_boolean_df.sum()
 
-    print(f"Number of empty entries: {empty_values_df.shape[0]}")
+    print(f"Number of empty rows: {empty_values_df.shape[0]}")
     print("Empty entries distribution:")
     print(empty_counts)
     print("")
