@@ -32,6 +32,19 @@ def replace_null_by_columns_values(dataframe, columns, values):
     return dataframe
 
 
+def replace_null_by_avg(dataframe, columns):
+
+    null_dict = {}
+    for column in columns:
+        dataframe[column] = pd.to_numeric(dataframe[column], errors='coerce')
+        value = dataframe[column].mean()
+        null_dict.update({column: value})
+        print(f"mean of {column}: {value}")
+    dataframe = dataframe.fillna(null_dict)
+
+    return dataframe
+
+
 def main():
     parser = argparse.ArgumentParser()
     # Mandatory arguments
@@ -51,15 +64,15 @@ def main():
         nargs='+',
         help='Replace with the new value(s) [-v valueForC1 valueForC2]'
     )
+    parser.add_argument("--avg", help="Average", action="store_true")
     args = parser.parse_args()
 
     data_file = args.data
     data_dataframe = pd.read_csv(data_file, sep=args.sep)
 
     # Check optionnal arguments
-    if not args.values:
-        print("No action done as no replacement value has been defined.")
-        exit()
+    if args.columns and args.avg:
+        new_dataframe = replace_null_by_avg(data_dataframe, args.columns)
 
     if not args.columns and args.values:
         if len(args.values) != 1:
@@ -77,6 +90,10 @@ def main():
             new_dataframe = replace_null_by_columns_values(
                                 data_dataframe, args.columns,
                                 args.values)
+
+    # if not args.values:
+    #     print("No action done as no replacement value has been defined.")
+    #     exit()
 
     print(new_dataframe)
 

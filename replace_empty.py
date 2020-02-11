@@ -30,6 +30,20 @@ def replace_empty_by_columns(dataframe, columns):
     return dataframe
 
 
+def replace_empty_by_avg(dataframe, columns):
+    for column in columns:
+        try:
+            dataframe[column] = pd.to_numeric(dataframe[column], errors='coerce')
+            dataframe.loc[
+                dataframe[column].str.strip().str.len() == 0,
+                column
+            ] = dataframe[column].mean()
+        except AttributeError:
+            pass
+
+    return dataframe
+
+
 def replace_empty_by_values(dataframe, values):
     value = values[0]
     for column in dataframe.columns:
@@ -82,6 +96,7 @@ def main():
         nargs='+',
         help='Column(s) to replace [-c Column1 Column2]'
     )
+    parser.add_argument("--avg", help="Average", action='store_true')
     parser.add_argument("--output", help='CSV file output')
     parser.add_argument("--sep", help='Separator', default='|')
     parser.add_argument(
@@ -118,6 +133,8 @@ def main():
             new_dataframe = replace_empty_by_columns_values(
                                 data_dataframe, args.columns,
                                 args.values)
+    if args.columns and args.avg:
+        new_dataframe = replace_empty_by_avg(data_dataframe, args.columns)
 
     print(new_dataframe)
 
@@ -126,7 +143,7 @@ def main():
     else:
         filename = f"{data_file.split('.')[0]}_replaced_empty.csv"
 
-    new_dataframe.to_csv(filename, index=False)
+    # new_dataframe.to_csv(filename, index=False)
 
 
 # Define what to do if file is run as script
