@@ -40,9 +40,6 @@ def compare_price(data_dataframe, column1, column2):
         print(abnormal_zerocol2_dataframe.head(5))
 
 
-
-
-
 def main():
     parser = argparse.ArgumentParser()
 

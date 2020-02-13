@@ -2,6 +2,7 @@ import argparse
 
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 def check_strctured_data_validity(dataframe, column_name, valid_length, min_valid_range, max_valid_range):
@@ -34,9 +35,9 @@ def check_text_data_validity(dataframe, column_name, valid_range_list):
     unique_values = dataframe[column_name].unique()
     valid = True
     for unique in unique_values:
-        if unique.strip() == "" or unique == np.nan: continue
+        if unique == np.nan or str(unique).strip() == "": continue
         if unique not in valid_range_list:
-            print(f"{unique} is not in valid range.")
+            print(f"value {unique} is not in valid range.")
             valid = False
     if valid:
         print(f"Didn't find any error")
@@ -70,6 +71,10 @@ def main():
         check_strctured_data_validity(transaction_dataframe, "USERID", 5, 10000, 50000)
         check_strctured_data_validity(transaction_dataframe, "ITEM", 6, 100000, 500000)
         check_text_data_validity(transaction_dataframe, "REVIEW", ['YES', 'NO'])
+        # timestamp_freq = transaction_dataframe['TIMESTAMP'].value_counts()
+        # fig, ax = plt.subplots()
+        # timestamp_freq.plot(ax=ax, kind='bar')
+        # plt.show()
 
 
 # Define what to do if file is run as script
