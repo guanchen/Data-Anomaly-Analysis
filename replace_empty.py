@@ -143,7 +143,7 @@ def main():
     else:
         filename = f"{data_file.split('.')[0]}_replaced_empty.csv"
 
-    # new_dataframe.to_csv(filename, index=False)
+    new_dataframe.to_csv(filename, index=False)
 
 
 # Define what to do if file is run as script
