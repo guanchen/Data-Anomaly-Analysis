@@ -19,11 +19,11 @@ def get_null_dataframe(dataframe):
     null_dataframe = dataframe[null_entries]
     null_counts = null_bolean_df.sum()
 
-    print(f"Number of NaN entries: {null_dataframe.shape[0]}")
-    print("NaN distribution:")
+    print(f"Number of null entries: {null_dataframe.shape[0]}")
+    print("Null distribution:")
     print(null_counts)
     print("")
-    print("Dataframe with NaN")
+    print("Dataframe with null")
     print(null_dataframe)
     print("\n")
 
@@ -35,8 +35,8 @@ def get_no_null_dataframe(dataframe):
     number_columns = no_null_dataframe.shape[0]
     number_null = int(dataframe.shape[0]) - int(number_columns)
 
-    print("----- NaN ENTRIES -----")
-    print(f"{number_null} rows with NaN entries have been deleted.")
+    print("----- NULL ENTRIES -----")
+    print(f"{number_null} rows with null entries have been deleted.")
     print("\n")
 
     return no_null_dataframe
@@ -115,7 +115,7 @@ def main():
     parser.add_argument("--all", help='Remove every anomalies', action='store_true')
     parser.add_argument("--duplicates", help='Remove duplicates', action='store_true')
     parser.add_argument("--empty", help='Remove empty entries', action='store_true')
-    parser.add_argument("--NaN", help='Remove NaN entries', action='store_true')
+    parser.add_argument("--null", help='Remove null entries', action='store_true')
     parser.add_argument("--output", help='CSV file output')
     parser.add_argument("--sep", help='Separator', default='|')
 
@@ -133,7 +133,7 @@ def main():
     else:
         get_duplicates_dataframe(data_dataframe)
 
-    if args.NaN or args.all:
+    if args.null or args.all:
         no_null_df = get_no_null_dataframe(data_dataframe)
         data_dataframe = no_null_df
     else:
