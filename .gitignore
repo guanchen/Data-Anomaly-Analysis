@@ -1,8 +1,5 @@
 .*
-
-CaseData_2020_ID029/
-csv/
-data/
+*.csv
+*.txt
+*.pdf
 env/
-
-draft.py
