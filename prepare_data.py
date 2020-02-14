@@ -1,6 +1,7 @@
 import argparse
 
 import pandas as pd
+import matplotlib.pyplot as plt
 
 
 def get_dataframe_info(dataframe):
@@ -30,7 +31,7 @@ def get_null_dataframe(dataframe):
 
 
 def get_no_null_dataframe(dataframe):
-    no_null_dataframe = dataframe.dropna(axis=0, how="any") 
+    no_null_dataframe = dataframe.dropna(axis=0, how="any")
     number_columns = no_null_dataframe.shape[0]
     number_null = int(dataframe.shape[0]) - int(number_columns)
 
@@ -56,6 +57,12 @@ def get_empty_value_dataframe(dataframe):
     print("Dataframe with empty entries")
     print(empty_values_df)
     print("\n")
+    empty_counts.plot(kind='barh')
+    plt.title("Empty frequencies in CUSTOMERDB")
+    plt.xlabel("FIELD")
+    plt.ylabel("Number of empties")
+    # plt.xticks(rotation=45)
+    plt.show()
 
     return empty_values_df
 
@@ -103,7 +110,6 @@ def main():
 
     # Mandatory arguments
     parser.add_argument("data", help='Data file')
-    # parser.add_argument("rules", help='Database rules file')
 
     # Optional arguments
     parser.add_argument("--all", help='Remove every anomalies', action='store_true')
@@ -112,19 +118,11 @@ def main():
     parser.add_argument("--NaN", help='Remove NaN entries', action='store_true')
     parser.add_argument("--output", help='CSV file output')
     parser.add_argument("--sep", help='Separator', default='|')
-    # parser.add_argument(
-    #   "--primary_key",
-    #    action='append',
-    #    help="Primary key, can be called multiple times"
-    # )
+
     args = parser.parse_args()
 
     data_file = args.data
     data_dataframe = pd.read_csv(data_file, sep=args.sep)
-
-    # rules_file = args.rules
-    # rules_dataframe = pd.read_csv(rules_file, sep=args.sep)
-    # rules_dataframe = rules_dataframe.set_index('FIELD')
 
     get_dataframe_info(data_dataframe)
 
