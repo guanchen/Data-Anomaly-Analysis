@@ -116,8 +116,8 @@ def main():
     parser.add_argument("--duplicates", help='Remove duplicates', action='store_true')
     parser.add_argument("--empty", help='Remove empty entries', action='store_true')
     parser.add_argument("--null", help='Remove null entries', action='store_true')
-    parser.add_argument("--output", help='CSV file output')
-    parser.add_argument("--sep", help='Separator', default='|')
+    parser.add_argument("--output", help='CSV file output [--output file.csv]')
+    parser.add_argument("--sep", help="Separator used in data if not comma [--sep '|']", default=',')
 
     args = parser.parse_args()
 
