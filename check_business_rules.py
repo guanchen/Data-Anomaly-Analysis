@@ -12,6 +12,7 @@ def compare_price(data_dataframe, column1, column2):
     print(f"{abnormal_dataframe.shape[0]} rows have {column1} > {column2}") 
     print("For example, ...")
     print(abnormal_dataframe.head(5))
+    print(data_dataframe[data_dataframe['SUPLID']=="48094JJ"]['CATEGORY'].value_counts())
 
     # Check both columns are 0
     abnormal_zero_dataframe = data_dataframe[
