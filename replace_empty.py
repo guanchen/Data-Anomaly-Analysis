@@ -98,7 +98,7 @@ def main():
     )
     parser.add_argument("--avg", help="Average", action='store_true')
     parser.add_argument("--output", help='CSV file output')
-    parser.add_argument("--sep", help='Separator', default='|')
+    parser.add_argument("--sep", help="Separator used in data if not comma [--sep '|']", default=',')
     parser.add_argument(
         "-v",
         "--values",

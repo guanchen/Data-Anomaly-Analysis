@@ -41,7 +41,7 @@ def main():
         help='Column(s) to remove [-c Column1 Column2]'
     )
     parser.add_argument("--output", help='CSV file output')
-    parser.add_argument("--sep", help='Separator', default='|')
+    parser.add_argument("--sep", help="Separator used in data if not comma [--sep '|']", default=',')
     args = parser.parse_args()
 
     data_file = args.data
